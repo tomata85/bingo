@@ -59,6 +59,15 @@
   async function init(){
     const grid = document.getElementById('bingo-grid');
     const titleEl = document.getElementById('bingo-title');
+    const headerEl = document.querySelector('header');
+
+    function updateHeaderHeight(){
+      if(!headerEl) return;
+      const h = Math.ceil(headerEl.getBoundingClientRect().height) + 8; // small buffer
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
     try{
       const resp = await fetch(DATA_URL, {cache:'no-cache'});
       const json = await resp.json();

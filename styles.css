@@ -2,20 +2,40 @@
   --cell-bg: #fff;
   --cell-border: #e9ecef;
   --accent: #198754;
+  --header-h: 120px; /* updated by JS at runtime to match header height */
 }
 
 
-body{background:#f8f9fa;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+.box-sizing{box-sizing:border-box}
+*{box-sizing:border-box}
+body{background:#f8f9fa;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
 .logo{font-weight:700;font-size:2rem;letter-spacing:0.06em}
 
-/* make the grid look like a table: square cells separated by borders */
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--cell-border);border-radius:8px;overflow:hidden}
-.cell{background:var(--cell-bg);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:.5rem;position:relative;border-left:1px solid var(--cell-border);border-top:1px solid var(--cell-border);box-sizing:border-box;cursor:pointer;user-select:none;transition:background .12s ease}
-.cell .text{font-size:.92rem;text-align:center;padding:.1rem}
+/* keep a 5x5 table of square cells that always fits the viewport */
+/* compute a cell size that fits both viewport width and available height */
+:root{
+  --cell-size: min(calc((100vw - 2rem)/5), calc((100vh - var(--header-h) - 2rem)/5));
+}
+
+.grid{display:grid;gap:0;border:1px solid var(--cell-border);border-radius:8px;overflow:hidden;margin:0 auto;grid-template-columns:repeat(5,var(--cell-size));grid-template-rows:repeat(5,var(--cell-size));width:calc(var(--cell-size) * 5);height:calc(var(--cell-size) * 5)}
+.cell{background:var(--cell-bg);display:flex;align-items:center;justify-content:center;padding:.28rem;position:relative;border-left:1px solid var(--cell-border);border-top:1px solid var(--cell-border);cursor:pointer;user-select:none;transition:background .12s ease}
+.cell .text{font-size:clamp(.6rem,.9vw,.9rem);text-align:center;padding:.04rem;line-height:1.02;overflow:hidden}
 
 .cell.checked{background:linear-gradient(180deg,#e9f7ee,#f0fff4);border-color:rgba(25,135,84,.08);cursor:default}
 .cell.checked .check{opacity:1;transform:translateY(0) scale(1)}
 .check{position:absolute;right:6px;top:6px;width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.08);opacity:0;transform:translateY(-6px) scale(.85);transition:all .15s ease}
 
-@media (max-width:576px){.cell{padding:.4rem}}
+@media (max-width:1024px){
+  .check{width:20px;height:20px}
+}
+
+@media (max-width:768px){
+  .cell{padding:.22rem}
+  .check{width:18px;height:18px}
+}
+
+@media (max-width:420px){
+  .cell{padding:.14rem}
+  .check{width:16px;height:16px}
+}
 
