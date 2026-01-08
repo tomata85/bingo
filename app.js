@@ -30,11 +30,11 @@
 
   function createCell(text, idx, checked){
     const el = document.createElement('div');
-    el.className = 'cell card p-0';
+    el.className = 'cell';
     el.dataset.index = idx;
 
     const span = document.createElement('div');
-    span.className = 'text p-2';
+    span.className = 'text';
     span.textContent = text;
     el.appendChild(span);
 
